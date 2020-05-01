@@ -1,17 +1,24 @@
 from classes.game import Person, bcolors
+from classes.magic import Spell
 
 
-magic = [{"name": "Toop", "cost": 10, "dmg": 800},
-         {"name": "Tank", "cost": 10, "dmg": 600},
-         {"name": "Feshfeshe", "cost": 10, "dmg": 700}]
+# dark magic initialize
+toop = Spell("Toop", 800, 11, "dark")
+tank = Spell("Tank", 600, 9, "dark")
+feshfeshe = Spell("Feshfeshe", 700, 10, "dark")
 
-player = Person(10000, 50, 480, 40, magic)
-enemy = Person(10000, 50, 480, 40, magic)
-print(player.get_hp())
+# white magic initialize
+cure = Spell("Cure", 1500, 9, "white")
+cura = Spell("Cura", 3000, 14, "white")
+
+player_magic=[toop, tank, feshfeshe, cure, cura]
+
+player = Person(10000, 50, 480, 40, player_magic)
+enemy = Person(10000, 50, 480, 40, player_magic)
 
 running = True
 
-print(bcolors.FAIL+bcolors.UNDERLINE+ "THE BEST TEXT BATTLE GAME EVER!"+bcolors.ENDC)
+print(bcolors.FAIL+bcolors.UNDERLINE+bcolors.BOLD+"THE BEST TEXT BATTLE GAME EVER!"+bcolors.ENDC)
 
 while running:
     print("+++++++++++++++++++++++++++++++++++")
@@ -25,17 +32,23 @@ while running:
     elif choice == 1:
         player.choose_magic()
         index = int(input("Choose magic:"))-1
-        cost = magic[index]["cost"]
+        spell = player.magic[index]
+        cost = spell.cost
         current_mp = player.get_mp()
 
         if cost > current_mp:
-            print(bcolors.FAIL+bcolors.bold, "Not enough MP", bcolors.ENDC)
+            print(bcolors.FAIL+bcolors.BOLD, "Not enough MP", bcolors.ENDC)
             continue
 
         player.reduce_mp(cost)
-        dmg = player.generate_spell_dmg(index)
-        enemy.take_dmg(dmg)
-        print(bcolors.OKBLUE+ magic[index]["name"]+ " deals " + str(dmg) + " points of damage.", bcolors.ENDC)
+        dmg = spell.generate_spell_dmg()
+        if spell.type == "dark":
+            enemy.take_dmg(dmg)
+            print(bcolors.OKBLUE+ spell.name+ " deals " + str(dmg) + " points of damage.", bcolors.ENDC)
+        else:
+            player.heal(dmg)
+            print(bcolors.OKBLUE + spell.name + " deals " + str(dmg) + " points of HP.", bcolors.ENDC)
+
 
 
     enemy_choice = 0

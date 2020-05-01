@@ -1,4 +1,5 @@
 import random
+from . import magic
 
 class bcolors:
     HEADER = '\033[95m'
@@ -27,14 +28,16 @@ class Person:
     def generate_damage(self):
         return random.randrange(int(self.atkl), int(self.atkh))
 
-    def generate_spell_dmg(self, i):
-        return random.randrange(self.magic[i]["dmg"]-300, self.magic[i]["dmg"]+300)
-
     def take_dmg(self, dmg):
         self.hp -= dmg
         if self.hp <= 0 :
             self.hp = 0
         return self.hp
+
+    def heal(self, dmg):
+        self.hp += dmg
+        if self.hp>self.maxhp:
+            self.hp = self.maxhp
 
     # get hp mp max mp maxhp
     def get_hp(self):
@@ -52,16 +55,11 @@ class Person:
     def reduce_mp(self, cost):
         self.mp -= cost
 
-    # get spell name
-    def get_spell_name(self, i):
-        return self.magic[i]["name"]
-    # get spell mp cost
-    def get_spell_mp_cost(self, i):
-        return self.magic[i]["cost"]
+
     # choos action
     def choose_action(self):
         i = 1
-        print("Actions")
+        print(bcolors.BOLD+bcolors.HEADER+"Actions"+bcolors.ENDC)
         for j in self.actions:
             print(str(i)+". "+j)
             i += 1
@@ -69,9 +67,9 @@ class Person:
     # chose magic
     def choose_magic(self):
         i = 1
-        print("Magics")
+        print(bcolors.BOLD+bcolors.HEADER+"Magic"+bcolors.ENDC)
         print("You have", self.mp, "mp!")
         for j in self.magic:
-            print(str(i)+". "+j["name"]+" cost "+str(j["cost"]))
+            print(str(i)+". "+j.name+" (cost "+str(j.cost)+')')
             i += 1
 
