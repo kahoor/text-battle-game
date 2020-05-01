@@ -82,6 +82,16 @@ class Person:
             print("        "+str(i) + ". " + j["item"].name + ": " + j["item"].description + " (x"+str(j["quantity"])+")")
             i += 1
 
+    def choose_enemy(self, enemies):
+        i = 1
+        print("\n" + bcolors.BOLD + bcolors.HEADER + "    Enemies" + bcolors.ENDC)
+        for j in enemies:
+            print("        " + str(i) + ". " + j.name)
+            i += 1
+
+        choice = int(input("    Choose action:")) - 1
+        return enemies[choice]
+
     def get_enemy_stats(self):
         hpbar = ""
         for _ in range(int((self.hp / self.maxhp) * 50)):
