@@ -13,7 +13,7 @@ class bcolors:
 
 
 class Person:
-    def __init__(self, hp, mp, atk, df, magic):
+    def __init__(self, hp, mp, atk, df, magic, items):
         self.maxhp = hp
         self.hp = hp
         self.maxmp = mp
@@ -22,8 +22,9 @@ class Person:
         self.atkh = atk+100
         self.df = df
         self.magic = magic
+        self.items = items
 
-        self.actions = ["Attack", "Magic"]
+        self.actions = ["Attack", "Magic", "Items"]
 
     def generate_damage(self):
         return random.randrange(int(self.atkl), int(self.atkh))
@@ -61,15 +62,21 @@ class Person:
         i = 1
         print(bcolors.BOLD+bcolors.HEADER+"Actions"+bcolors.ENDC)
         for j in self.actions:
-            print(str(i)+". "+j)
+            print("    "+str(i)+". "+j)
             i += 1
 
     # chose magic
     def choose_magic(self):
         i = 1
-        print(bcolors.BOLD+bcolors.HEADER+"Magic"+bcolors.ENDC)
+        print("\n"+bcolors.BOLD+bcolors.HEADER+"Magic"+bcolors.ENDC)
         print("You have", self.mp, "mp!")
         for j in self.magic:
-            print(str(i)+". "+j.name+" (cost "+str(j.cost)+')')
+            print("    "+str(i)+". "+j.name+" (cost "+str(j.cost)+')')
             i += 1
 
+    def choose_item(self):
+        i = 1
+        print("\n"+bcolors.BOLD + bcolors.HEADER + "Items" + bcolors.ENDC)
+        for j in self.items:
+            print("    "+str(i) + ". " + j["item"].name + ": " + j["item"].description + " (x"+str(j["quantity"])+")")
+            i += 1
