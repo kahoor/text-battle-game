@@ -57,7 +57,6 @@ class Person:
     def reduce_mp(self, cost):
         self.mp -= cost
 
-
     # choos action
     def choose_action(self):
         i = 1
@@ -133,3 +132,7 @@ class Person:
             mpfln = " " + mpfln
 
         print(bcolors.BOLD + self.name + ":" + hpfln + bcolors.ENDC + " |" + bcolors.OKGREEN + hpbar + bcolors.ENDC + "|" + bcolors.BOLD + mpfln +bcolors.ENDC+" |"+bcolors.OKBLUE+ mpbar +bcolors.ENDC+"|")
+
+    def choose_enemy_spell_cost(self):
+        spell = self.magic[random.randrange(0, len(self.magic))]
+        return spell, spell.dmg
